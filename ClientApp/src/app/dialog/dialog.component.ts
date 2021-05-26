@@ -14,10 +14,11 @@ export class DialogComponent implements OnInit {
   private _http:HttpClient;
   private _baseUrl:string;
   displayedColumns: string[] = ['id'];
-
+   newItems = {};
   constructor(public dialog: MatDialog ,http: HttpClient, @Inject('BASE_URL') baseUrl: string) { 
     this._http=http;
-    this._baseUrl=baseUrl;
+    this._baseUrl = baseUrl;
+    
   }
 
   ngOnInit() {
@@ -32,10 +33,18 @@ export class DialogComponent implements OnInit {
     dialogRef.afterOpened().subscribe(result=>{
       this._http.get((this._baseUrl + 'GetItemData'),{params: params}).subscribe(result => {
         this.apiData = result;
+        this.newItems = this.groupByType(this.apiData);
         console.log(this.apiData);
       }, error => console.error(error));
     });
   }
+  groupByType(array): {} {
+    return array.reduce((r, a) => {
+        r[a.type] = r[a.type] || [];
+        r[a.type].push(a);
+        return r;
+      }, Object.create(null));
+    }
 }
 interface ItemPriceGroups{
   priceType:string;

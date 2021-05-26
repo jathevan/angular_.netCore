@@ -2,13 +2,15 @@ import { Component, Inject, Input } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 @Component({
   selector: 'app-fetch-data',
   templateUrl: './fetch-data.component.html'
 })
 
 export class FetchDataComponent {
+  term: string;
+
   @Input() searchedWord: string; 
   public fieldsData: DataField[];
   private _dialogFunc: DialogComponent;
